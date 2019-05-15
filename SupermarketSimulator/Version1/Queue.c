@@ -1,6 +1,6 @@
 /*******************************************************************************
 | Program: An Implementation of a C Queue                                      |
-| Last Updated: 15/5/2019      FCUP       Copyright (c) 2019, Eduardo Morgado  |
+| Last Updated: 15/5/2019                                                  FCUP|
 *******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
