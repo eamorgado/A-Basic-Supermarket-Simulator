@@ -1,16 +1,17 @@
 /*******************************************************************************
-| Program: An Definition of a C Queue                                          |
+| Program: A Definition of a C Queue                                           |
 | Last Updated: 15/5/2019                                                  FCUP|
 ********************************************************************************
 |   Representation:                                                            |
 *******************************************************************************/
+#include "Client.h"
 #ifndef QUEUE_H
 #define QUEUE_H
 
 /*------------------------------------------------------------------------------
 |                           Macro Definition                                   |
 ------------------------------------------------------------------------------*/
-#define DATA(QE) ((QE)->data)
+#define CLIENT(QE) ((QE)->client)
 #define NEXT(QE) ((QE)->next)
 
 #define FIRST(Q) ((Q)->first)
@@ -22,7 +23,7 @@
 |                           Queue Element                                      |
 ------------------------------------------------------------------------------*/
 typedef struct queuelement{
-    int data;
+    Client* client;
     struct queuelement* next;
 }QueueElem;
 
@@ -41,11 +42,12 @@ typedef struct queue{
 |                           Queue Functions                                    |
 ------------------------------------------------------------------------------*/
 Queue* createQueue();
-int isEmpty(Queue*);
-int getFirst(Queue*);
-int getLast(Queue*);
-void enqueue(int,Queue*);
-int dequeue(Queue*);
+int isQueueEmpty(Queue*);
+Client* getFirst(Queue*);
+Client* getLast(Queue*);
+int size(Queue*);
+void enqueue(Client*,Queue*);
+void dequeue(Queue*);
 void printQueue(Queue*);
 
 /*------------------------------Free------------------------------------------*/

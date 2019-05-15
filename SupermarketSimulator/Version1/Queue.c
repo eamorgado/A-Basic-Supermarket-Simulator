@@ -4,6 +4,7 @@
 *******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include "Client.h"
 #include "Queue.h"
 
 /*------------------------------------------------------------------------------
@@ -24,19 +25,22 @@ Queue* createQueue(){
    SIZE(Q)=0;
    return Q;
 }
-int isEmpty(Queue* Q){
-    return FIRST(Q)==NULL;
+int isQueueEmpty(Queue* Q){
+    return (FIRST(Q)==NULL? 1 : 0);
 }
-int getFirst(Queue* Q){
-    return DATA(FIRST(Q));
+Client* getFirst(Queue* Q){
+    return CLIENT(FIRST(Q));
 }
-int getLast(Queue* Q){
-    return DATA(LAST(Q));    
+Client* getLast(Queue* Q){
+    return CLIENT(LAST(Q));    
 }
-void enqueue(int elem, Queue* Q){
+int size(Queue* Q){
+    return SIZE(Q);
+}
+void enqueue(Client* client, Queue* Q){
     QueueElem* q_e=(QueueElem*)malloc(sizeof(QueueElem));
     if(!q_e){
-        printf("Error enqueuing element %d\n",elem);
+        printf("Error enqueuing client with %d items at time %d\n",ITEMS(client),CHECKIN(client));
         freeQueue(Q);
         exit(0);
     }
@@ -47,34 +51,31 @@ void enqueue(int elem, Queue* Q){
         LAST(Q)=q_e;
     }
     NEXT(q_e)=NULL;
-    DATA(q_e)=elem;
+    CLIENT(q_e)=client;
     SIZE(Q)++;
 }
-int dequeue(Queue* Q){
-    int data=getFirst(Q);
+void dequeue(Queue* Q){
     QueueElem* aux=FIRST(Q);
     FIRST(Q)=NEXT(FIRST(Q));
     free(aux);
     SIZE(Q)--;
-    return data;
 }
 void printQueue(Queue* Q){
-    if(isEmpty(Q)){
+    if(isQueueEmpty(Q)==1){
         printf("<<\n");
         return;
     }
     QueueElem* curr=FIRST(Q);
-    int i=0;
     printf("<");
     while(NEXT(curr)!=NULL){
-        printf("[%d:%d]<",i,DATA(curr));
-        i++;
+        printf("[%d:%d]<",ITEMS(CLIENT(curr)),CHECKIN(CLIENT(curr)));
         curr=NEXT(curr); 
     }
-    printf("[%d:%d]<\n",(++i),DATA(curr));
+    printf("[%d:%d]<\n",ITEMS(CLIENT(curr)),CHECKIN(CLIENT(curr)));       
 }
+
 void freeQueue(Queue* Q){
-    if(isEmpty(Q)){
+    if(isQueueEmpty(Q)){
         free(Q);
         return;
     }
@@ -84,6 +85,7 @@ void freeQueue(Queue* Q){
 }
 void freeQueueElem(QueueElem* prev,QueueElem*curr){
     if(NEXT(curr)==NULL){
+        free(CLIENT(curr));
         free(curr);
         NEXT(prev)=NULL;
         return;
