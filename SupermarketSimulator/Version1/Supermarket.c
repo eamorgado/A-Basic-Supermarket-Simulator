@@ -49,11 +49,11 @@ void closingOfAccounts(Supermarket* SM){
         int clients=CLIENTS(c);
         int products=PRODUCTS(c);
         double avg=(double)products/clients;
-        printf("Cashier %d (%d products scanned per cycle)\n",ID(c),SCAN_POWER(c));
+        printf("\nCashier %d (%d products scanned per cycle):\n",ID(c),SCAN_POWER(c));
         if(CLIENTS(c)!=0)
-            printf("%d clients serviced, average %0.1f products/clients\n",clients,avg);
+            printf(">>%d clients serviced, average %0.1f products/clients\n",clients,avg);
         else 
-            printf("%d clients serviced\n",clients);
+            printf(">>%d clients serviced\n",clients);
     }
 }
 
