@@ -8,7 +8,7 @@ void simulateWorkingSupermarket(int type,int affluence,int appetite,int n_cashie
     Supermarket* SM=openSupermarket(n_cashiers,type);
 
     for(int step=1;step<=cycles;step++){
-        printf("==Cycle %d==",step);
+        printf("\n==Cycle %d==\n",step);
         serviceClients(step,SM);
 
         double random = (double)rand()/RAND_MAX;
@@ -20,23 +20,24 @@ void simulateWorkingSupermarket(int type,int affluence,int appetite,int n_cashie
 
             Client* client=newClient(products,step);
 
-            printf("--->New Client created at %d with %d products\n",step,products);
+            printf("\n--->New Client created at %d with %d products\n",step,products);
 
             int cashier_to_checkin = (rand()%(n_cashiers -1+1))+1;
-            int priority = rand()/RAND_MAX;
+            int priority = (rand() %(2));
             
             clientCheckin(client,priority,CASHIERS(SM)[cashier_to_checkin-1]);
         }
         printf("\n");
         printSupermarket(SM);
     }
-    printf("\n====Cashiers Closed====\n");
+    printf("\n\n=====Cashiers Closed=====\n");
     int step=cycles+1;
     printf("\n\n");
     while(isSupermarketInUse(SM)){
         printf("\n===Cycle %d===\n",step);
         serviceClients(step,SM);
         printSupermarket(SM);
+        printf("\n");
         step++;
     }
     printf("\n==Closing Supermarket==\n");
