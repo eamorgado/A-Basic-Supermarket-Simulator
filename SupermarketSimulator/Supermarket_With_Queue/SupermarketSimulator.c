@@ -1,11 +1,17 @@
+/*******************************************************************************
+| Program: An Implementation of a Supermarket Simulator                        |
+| Last Updated: 15/5/2019                                                  FCUP|
+*******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "Cashier.h"
 #include "Client.h"
 #include "Supermarket.h"
 
-void simulateWorkingSupermarket(int affluence,int appetite,int n_cashiers,int cycles){
-    Supermarket* SM=openSupermarket(n_cashiers);
+void simulateWorkingSupermarket(int affluence,int appetite,int n_cashiers,int cycles,int test){
+    Supermarket* SM=openSupermarket(n_cashiers,test);
+    if(test==1) srand(time(NULL));
 
     for(int step=0;step<cycles;step++){
         serviceClients(step,SM);

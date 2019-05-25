@@ -1,49 +1,38 @@
 /*******************************************************************************
 | Program: An Implementation of a Supermarket Cashier                          |
-| Last Updated: 22/5/2019                                                  FCUP|
+| Last Updated: 15/5/2019                                                  FCUP|
 *******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include "Client.h"
+#include <time.h>
 #include "Cashier.h"
 #include "Queue.h"
-#include "PriorityQueue.h"
 
-Cashier* openCashier(int id,int tp){
+Cashier* openCashier(int id,int test){
     Cashier* C=(Cashier*)malloc(sizeof(Cashier));
     if(!C){
         printf("Error opening cashier %d",id);
         exit(0);
     }
-    if(tp==0){
-        TYPE(C)=QUEUE;
-        Q(C) = createQueue();
-    }
-    else{
-        TYPE(C)=PQUEUE;
-        PQ(C) = newPriorityQueue();
-    }
-    
+    Queue* line = createQueue();
     ID(C)=id;
+    LINE(C)=line;
     CLIENTS(C)=PRODUCTS(C)=WAIT_TIME(C)=NEXT_SERVICE(C)=0;
+    //If it is in test version, seed the random numbers with current time
+    if(test==1) srand(time(NULL));
     SCAN_POWER(C)=(rand()%(5-1+1))+1;
     return C;
 }
 void delayServiceTo(int available_at,Cashier* C){
     NEXT_SERVICE(C)=available_at;
 }
-void clientCheckin(Client* client,int priority,Cashier* C){
-    if(TYPE(C)==PQUEUE)
-        addElem(client,priority,PQ(C));
-    else
-        enqueue(client,Q(C));
+void clientCheckin(Client* client,Cashier* C){
+    enqueue(client,LINE(C));
 }
 void clientCheckout(Cashier* C){
-    if(TYPE(C)==PQUEUE)
-        dequeuePQ(PQ(C));
     //removes client and updates total_clients
-    else
-        dequeue(Q(C));
+    CLIENTS(C)++;
+    dequeue(LINE(C));
 }
 void processedProduct(int items,Cashier* C){
     PRODUCTS(C)+=items;
@@ -52,16 +41,11 @@ void timeIncrease(int time_for_service,Cashier* C){
     WAIT_TIME(C)+=time_for_service;
 }
 int isCashierEmpty(Cashier* C){
-    if(TYPE(C)==PQUEUE)
-        return isPQueueEmpty(PQ(C));
-    return isQueueEmpty(Q(C));
+    return isQueueEmpty(LINE(C));
 }
 void printCashier(Cashier* C){
     printf("Caixa %d: ",ID(C));
-    if(TYPE(C)==QUEUE)
-        printQueue(Q(C));
-    else
-        printPriorityQueue(PQ(C));
+    printQueue(LINE(C));
 }
 
 void serviceClient(int step,Cashier* cashier){
@@ -69,23 +53,19 @@ void serviceClient(int step,Cashier* cashier){
      * Verifies if the first client inn this cashier has been serviced, if so,
      *      updates its info, #clients, #products
      */
-
-    Client* client = ((TYPE(cashier)==QUEUE)? getFirst(Q(cashier)) : serviceElement(PQ(cashier)));
+    Client* client = getFirst(LINE(cashier));
     int wait = step - NEXT_SERVICE(cashier);
     int products_scanned = wait * SCAN_POWER(cashier);
 
     if(products_scanned >= ITEMS(client)){
-        NEXT_SERVICE(cashier)= step+1;
-        CLIENTS(cashier)++;
-        PRODUCTS(cashier)+=ITEMS(client);
-        WAIT_TIME(cashier)+= (step-CHECKIN(client));
+        delayServiceTo(step+1,cashier);
+        processedProduct(ITEMS(client),cashier);
+        timeIncrease(step-CHECKIN(client),cashier);
         clientCheckout(cashier);
         printf("--->Client serviced in cashier %d\n",ID(cashier));
     }
 }
 
 void closeCashier(Cashier* C){
-    if(TYPE(C)==QUEUE) freeQueue(Q(C));
-    else freePQueue(PQ(C));
-    free(C);
+    freeQueue(LINE(C));
 }

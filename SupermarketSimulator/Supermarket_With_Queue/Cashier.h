@@ -24,13 +24,13 @@
 /*------------------------------------------------------------------------------
 |                           Macro Definition                                   |
 ------------------------------------------------------------------------------*/
-#define ID(C) ((C)->cashier_id)
+#define ID(C) ((C)->cashier_id)             //Id of cashier C
 #define LINE(C) ((C)->cashier_line)
-#define CLIENTS(C) ((C)->total_clients)
-#define PRODUCTS(C) ((C)->total_products)
-#define WAIT_TIME(C) ((C)->total_waiting_time)
+#define CLIENTS(C) ((C)->total_clients)     //#clients serviced in cashier C
+#define PRODUCTS(C) ((C)->total_products)   //#products scanned in cashier C
+#define WAIT_TIME(C) ((C)->total_waiting_time) //total wait time for cashier C
 #define NEXT_SERVICE(C) ((C)->servicing_available_time)
-#define SCAN_POWER(C) ((C)->scanning_power)
+#define SCAN_POWER(C) ((C)->scanning_power)//Number of products the cashier scans 
 
 
 /*------------------------------------------------------------------------------
@@ -50,14 +50,16 @@ typedef struct cashier{
 /*------------------------------------------------------------------------------
 |                           Cashier Functions                                  |
 ------------------------------------------------------------------------------*/
-Cashier* openCashier(int);
-void delayServiceTo(int,Cashier*);
+Cashier* openCashier(int,int);
+
+void delayServiceTo(int,Cashier*);    //Updates servicing_available_time
+void processedProduct(int,Cashier*);  //Updates total_products
+void timeIncrease(int,Cashier*);      //Updates total_waiting_time
+int isCashierEmpty(Cashier*);
+
 void clientCheckin(Client*,Cashier*);
 void clientCheckout(Cashier*); //removes client and updates total_clients
-void processedProduct(int,Cashier*);
-void timeIncrease(int,Cashier*);
 
-int isCashierEmpty(Cashier*);
 void printCashier(Cashier*);
 
 void serviceClient(int,Cashier*);

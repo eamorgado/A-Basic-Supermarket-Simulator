@@ -1,3 +1,7 @@
+/*******************************************************************************
+| Program: An Implementation of a Supermarket                                  |
+| Last Updated: 15/5/2019                                                  FCUP|
+*******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include "Queue.h"
@@ -5,7 +9,7 @@
 #include "Cashier.h"
 #include "Supermarket.h"
 
-Supermarket* openSupermarket(int n_cashiers){
+Supermarket* openSupermarket(int n_cashiers,int test){
     Supermarket* SM=(Supermarket*)malloc(sizeof(Supermarket));
     if(!SM){
         printf("Error creating supermarket\n");
@@ -21,7 +25,7 @@ Supermarket* openSupermarket(int n_cashiers){
     }
 
     for(int i=0;i<=NCASHIERS(SM);i++)
-        CASHIERS(SM)[i]=openCashier(i+1);
+        CASHIERS(SM)[i]=openCashier(i+1,test);
 
     return SM;
 }

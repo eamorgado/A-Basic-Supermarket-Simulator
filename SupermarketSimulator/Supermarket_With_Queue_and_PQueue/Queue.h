@@ -1,8 +1,6 @@
 /*******************************************************************************
 | Program: A Definition of a C Queue                                           |
 | Last Updated: 15/5/2019                                                  FCUP|
-********************************************************************************
-|   Representation:                                                            |
 *******************************************************************************/
 #include "Client.h"
 #ifndef QUEUE_H
@@ -42,12 +40,15 @@ typedef struct queue{
 |                           Queue Functions                                    |
 ------------------------------------------------------------------------------*/
 Queue* createQueue();
+
 int isQueueEmpty(Queue*);
+int size(Queue*);
 Client* getFirst(Queue*);
 Client* getLast(Queue*);
-int size(Queue*);
+
 void enqueue(Client*,Queue*);
-void dequeue(Queue*);
+Client* dequeue(Queue*);
+
 void printQueue(Queue*);
 
 /*------------------------------Free------------------------------------------*/

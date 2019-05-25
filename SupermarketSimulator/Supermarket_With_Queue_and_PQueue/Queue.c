@@ -25,18 +25,21 @@ Queue* createQueue(){
    SIZE(Q)=0;
    return Q;
 }
+
 int isQueueEmpty(Queue* Q){
     return (FIRST(Q)==NULL? 1 : 0);
 }
+int size(Queue* Q){
+    return SIZE(Q);
+}
+
 Client* getFirst(Queue* Q){
     return CLIENT(FIRST(Q));
 }
 Client* getLast(Queue* Q){
     return CLIENT(LAST(Q));    
 }
-int size(Queue* Q){
-    return SIZE(Q);
-}
+
 void enqueue(Client* client, Queue* Q){
     QueueElem* q_e=(QueueElem*)malloc(sizeof(QueueElem));
     if(!q_e){
@@ -54,12 +57,17 @@ void enqueue(Client* client, Queue* Q){
     CLIENT(q_e)=client;
     SIZE(Q)++;
 }
-void dequeue(Queue* Q){
+Client* dequeue(Queue* Q){
     QueueElem* aux=FIRST(Q);
     FIRST(Q)=NEXT(FIRST(Q));
+    
+    Client* client = newClient(ITEMS(CLIENT(aux)),CHECKIN(CLIENT(aux)));
+
     free(aux);
     SIZE(Q)--;
+    return client;
 }
+
 void printQueue(Queue* Q){
     if(isQueueEmpty(Q)==1){
         printf("<<\n");

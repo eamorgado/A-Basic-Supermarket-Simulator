@@ -1,3 +1,7 @@
+/*******************************************************************************
+| Program: An Implementation of a Client                                       |
+| Last Updated: 15/5/2019                                                  FCUP|
+*******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include "Client.h"
