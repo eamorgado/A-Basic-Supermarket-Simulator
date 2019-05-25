@@ -66,5 +66,4 @@ void serviceClient(int,Cashier*);
 /*------------------------------Free------------------------------------------*/
 void closeCashier(Cashier*);
 
-
 #endif
