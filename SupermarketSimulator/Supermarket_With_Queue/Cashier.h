@@ -17,7 +17,6 @@
 *******************************************************************************/
 #include "Queue.h"
 #include "Client.h"
-
 #ifndef CASHIER_H
 #define CASHIER_H
 
