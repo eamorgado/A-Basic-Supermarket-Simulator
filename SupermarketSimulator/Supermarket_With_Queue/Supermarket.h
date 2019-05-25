@@ -1,5 +1,8 @@
+/*******************************************************************************
+| Program: A Definition of a Supermarket                                       |
+| Last Updated: 15/5/2019                                                  FCUP|
+*******************************************************************************/
 #include "Cashier.h"
-
 #ifndef SUPERMARKET_H
 #define SUPERMARKET_H
 
@@ -13,6 +16,7 @@
 /*------------------------------------------------------------------------------
 |                           Supermarket Definition                             |
 ------------------------------------------------------------------------------*/
+//A supermarket will contain the number of open cashiers and its list/array
 typedef struct supermarket{
     Cashier** cashiers_list;
     int n_cashiers;
@@ -23,10 +27,12 @@ typedef struct supermarket{
 |                           Supermarket Functions                              |
 ------------------------------------------------------------------------------*/
 Supermarket* openSupermarket(int,int);
-void printSupermarket(Supermarket*);
+
 int isSupermarketInUse(Supermarket*);
-void serviceClients(int,Supermarket*);
-void closingOfAccounts(Supermarket*);
+void printSupermarket(Supermarket*);
+
+void serviceClients(int,Supermarket*); //Service clients in the cashiers
+void closingOfAccounts(Supermarket*); //Calculates the usage of all the cashiers
 
 void closeSupermarket(Supermarket*);
 

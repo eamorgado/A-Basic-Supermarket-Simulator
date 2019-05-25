@@ -1,11 +1,17 @@
+/*******************************************************************************
+| Program: An Implementation of a Supermarket                                  |
+| Last Updated: 22/5/2019                                                  FCUP|
+*******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include "Queue.h"
+#include "PriorityQueue.h"
 #include "Client.h"
 #include "Cashier.h"
 #include "Supermarket.h"
 
-Supermarket* openSupermarket(int n_cashiers){
+Supermarket* openSupermarket(int n_cashiers,int type,int test){
+    //Creates a supermarket with n_cashiers with given type
     Supermarket* SM=(Supermarket*)malloc(sizeof(Supermarket));
     if(!SM){
         printf("Error creating supermarket\n");
@@ -21,23 +27,26 @@ Supermarket* openSupermarket(int n_cashiers){
     }
 
     for(int i=0;i<=NCASHIERS(SM);i++)
-        CASHIERS(SM)[i]=openCashier(i+1);
+        CASHIERS(SM)[i]=openCashier(i+1,type,test);
 
     return SM;
 }
-void printSupermarket(Supermarket* SM){
-    for(int i=0;i<NCASHIERS(SM);i++)
-        printCashier(CASHIERS(SM)[i]);
-}
 int isSupermarketInUse(Supermarket* SM){
+    //Checks if supermarket is has any client or if it can close
     for(int i=0;i<NCASHIERS(SM);i++)
         if(isCashierEmpty(CASHIERS(SM)[i])==0)
             return 1;
     return 0;
 }
+
+void printSupermarket(Supermarket* SM){
+    for(int i=0;i<NCASHIERS(SM);i++)
+        printCashier(CASHIERS(SM)[i]);
+}
+
 void serviceClients(int step,Supermarket* SM){
     for(int i=0;i<NCASHIERS(SM);i++){
-        if(isCashierEmpty(CASHIERS(SM)[i])==1)
+        if(isCashierEmpty(CASHIERS(SM)[i])==1) //Skip empty cashiers
             NEXT_SERVICE(CASHIERS(SM)[i])=step;
         else 
             serviceClient(step,CASHIERS(SM)[i]);
@@ -60,5 +69,4 @@ void closingOfAccounts(Supermarket* SM){
 void closeSupermarket(Supermarket* SM){
     for(int i=0;i<NCASHIERS(SM);i++)
         closeCashier(CASHIERS(SM)[i]);
-    free(SM);
 }
