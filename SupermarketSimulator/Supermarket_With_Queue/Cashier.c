@@ -4,11 +4,10 @@
 *******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include "Cashier.h"
 #include "Queue.h"
 
-Cashier* openCashier(int id,int test){
+Cashier* openCashier(int id,int scan_power){
     Cashier* C=(Cashier*)malloc(sizeof(Cashier));
     if(!C){
         printf("Error opening cashier %d",id);
@@ -17,10 +16,8 @@ Cashier* openCashier(int id,int test){
     Queue* line = createQueue();
     ID(C)=id;
     LINE(C)=line;
-    CLIENTS(C)=PRODUCTS(C)=WAIT_TIME(C)=NEXT_SERVICE(C)=0;
-    //If it is in test version, seed the random numbers with current time
-    if(test==1) srand(time(NULL));
-    SCAN_POWER(C)=(rand()%(5-1+1))+1;
+    CLIENTS(C)=PRODUCTS(C)=WAIT_TIME(C)=NEXT_SERVICE(C)=0;        
+    SCAN_POWER(C)=scan_power;
     return C;
 }
 void delayServiceTo(int available_at,Cashier* C){
