@@ -1,3 +1,7 @@
+/*******************************************************************************
+| Program: An Implementation of a C Priority Queue of Integers                 |
+| Last Updated: 17/5/2019                                                  FCUP|
+*******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
 #include "Queue.h"
