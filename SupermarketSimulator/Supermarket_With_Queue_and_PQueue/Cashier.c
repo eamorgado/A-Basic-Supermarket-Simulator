@@ -4,14 +4,13 @@
 *******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 #include "Client.h"
 #include "Cashier.h"
 #include "Queue.h"
 #include "PriorityQueue.h"
 
 
-Cashier* openCashier(int id,int tp,int test){
+Cashier* openCashier(int id,int tp,int scan_power){
     /**
      * Given an id number and the type of cashier, creates the cashier and
      *  initializes all its variables.
@@ -31,9 +30,7 @@ Cashier* openCashier(int id,int tp,int test){
     
     ID(C)=id;
     CLIENTS(C)=PRODUCTS(C)=WAIT_TIME(C)=NEXT_SERVICE(C)=0;
-    //If it is in test version, seed the random numbers with current time
-    if(test==1) srand(time(NULL));
-    SCAN_POWER(C)=(rand()%(5-1+1))+1;
+    SCAN_POWER(C)=scan_power;
     return C;
 }
 

@@ -11,7 +11,7 @@
 
 void simulateWorkingSupermarket(int type,int affluence,int appetite,int n_cashiers,int cycles,int test){
     Supermarket* SM=openSupermarket(n_cashiers,type,test);
-    if(test==1) srand(time(NULL));
+    if(test==0) srand(time(NULL));
 
     for(int step=1;step<=cycles;step++){
         printf("\n==Cycle %d==\n",step);
