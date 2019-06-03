@@ -29,7 +29,7 @@ Supermarket* openSupermarket(int n_cashiers,int type,int test){
 
     //If it is in test version, seed the random numbers with current time
     if(test==0) srand(time(NULL));
-    for(int i=0;i<=NCASHIERS(SM);i++)
+    for(int i=0;i<NCASHIERS(SM);i++)
         CASHIERS(SM)[i]=openCashier(i+1,type,(rand()%(5-1+1))+1);
 
     return SM;
